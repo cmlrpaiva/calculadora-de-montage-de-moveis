@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Precificação</title>
+  <style>
+      body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+      .container { max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+      input { width: 100%; padding: 10px; margin: 10px 0; font-size: 16px; }
+      button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+      #resultado { margin-top: 20px; font-size: 18px; font-weight: bold; }
+      p { font-size: 16px; color: red; margin-top: 10px; }
+      strong {color: #000}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Calculadora de Precificação</h2>
+
+  <!-- Informações Fixas -->
+  <p><strong>Valor Mínimo Cobrado: </strong>R$ 60,00</p>
+  <p><strong>Preço do Álcool:</strong> R$ 4,20</p>
+  <p><strong>Consumo Médio:</strong> 14,5 km/L</p>
+  <p><strong>Percentual do Valor do Móvel:</strong> 15%</p>
+  <p><strong>Adicional noturno:</strong> R$ 10,00</p>
+
+  <label>Valor do Móvel (R$):</label>
+  <input type="number" id="valorMovel" placeholder="Digite o valor do móvel" step="0.01">
+
+  <label>Distância até o Cliente (Km):</label>
+  <input type="number" id="distanciaKm" placeholder="Digite a distância em Km" step="0.1">
+
+  <button onclick="calcularValor()">Calcular</button>
+
+  <div id="resultado"></div>
+  <div id="resultadoNoturno"></div>
+</div>
+
+<script>
+    // Valores fixos
+    const valorMinimoHora = 60.00; // R$ 60,00
+    const precoAlcool = 4.20; // R$ 4,20
+    const consumoCarro = 14.5; // 14,5 km/L
+    const percentualMovel = 15; // 15%
+    const adicionaNoturno = 10.00; // 15%
+
+    function calcularValor() {
+        let valorMovel = parseFloat(document.getElementById('valorMovel').value) || 0;
+        let distanciaKm = parseFloat(document.getElementById('distanciaKm').value) || 0;
+
+        // Cálculo do valor percentual do móvel
+        let valorPercentualReais = (valorMovel * percentualMovel) / 100;
+
+        // Cálculo do custo do combustível para o trajeto
+        let custoCombustivel = (distanciaKm / consumoCarro) * precoAlcool;
+
+        // Valor mínimo do serviço incluindo o custo do combustível
+        let valorMinimoServico = valorMinimoHora + valorPercentualReais + custoCombustivel;
+
+        // Exibir o resultado
+        document.getElementById('resultado').innerHTML = `Valor Mínimo do Serviço: R$ ${valorMinimoServico.toFixed(2)}`;
+        document.getElementById('resultadoNoturno').innerHTML = `Com adicional noturno: R$ ${(valorMinimoServico + adicionaNoturno).toFixed(2)}`;
+    }
+</script>
+</body>
+</html>
